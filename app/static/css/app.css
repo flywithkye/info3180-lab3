@@ -1,3 +1,26 @@
 body {
     padding-top: 5rem;
 }
+
+.success, .error {
+    list-style-type: none;
+    text-align: center;
+    display: inline-block;
+    margin-left: 220px;
+    width: 50%;
+    padding: 10px;
+}
+
+.success {
+    color: rgb(60, 200, 121); 
+    font-weight: bold; 
+    border: 1px black;
+    background:rgb(167, 224, 192);
+}
+
+.error {
+    color: rgb(200, 60, 111); 
+    font-weight: bold; 
+    border: 1px black;
+    background:rgb(224, 167, 203);
+}

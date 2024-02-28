@@ -1,5 +1,6 @@
-from app import app
+from app import app, mail
 from flask import render_template, request, redirect, url_for, flash
+from flask_mail import Message
 
 # Note: that when using Flask-WTF we need to import the Form Class that we created
 # in forms.py
@@ -15,7 +16,7 @@ def home():
     return render_template('home.html')
 
 
-@app.route('/contact')
+@app.route('/contact', methods=['GET', 'POST'])
 def contact():
     """Render the website's contact page."""
     contactform = ContactForm()
@@ -26,8 +27,15 @@ def contact():
             email = contactform.email.data
             subject = contactform.subject.data
             message = contactform.message.data
+            
+            msg = Message(subject, 
+                sender=(name, email), 
+                recipients=["to@example.com"]) 
+            msg.body = message 
+            mail.send(msg) 
 
-            flash('You have successfully filled out the form', 'success')
+            flash('Email Successfully Sent!', 'success')            
+            return redirect(url_for('home'))
 
         flash_errors(contactform)
     
