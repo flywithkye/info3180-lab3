@@ -1,6 +1,9 @@
 from app import app
 from flask import render_template, request, redirect, url_for, flash
 
+# Note: that when using Flask-WTF we need to import the Form Class that we created
+# in forms.py
+from .forms import ContactForm
 
 ###
 # Routing for your application.
@@ -10,6 +13,25 @@ from flask import render_template, request, redirect, url_for, flash
 def home():
     """Render website's home page."""
     return render_template('home.html')
+
+
+@app.route('/contact')
+def contact():
+    """Render the website's contact page."""
+    contactform = ContactForm()
+    
+    if request.method == 'POST':
+        if contactform.validate_on_submit():
+            name = contactform.name.data
+            email = contactform.email.data
+            subject = contactform.subject.data
+            message = contactform.message.data
+
+            flash('You have successfully filled out the form', 'success')
+
+        flash_errors(contactform)
+    
+    return render_template('contact.html', form=contactform)
 
 
 @app.route('/about/')
